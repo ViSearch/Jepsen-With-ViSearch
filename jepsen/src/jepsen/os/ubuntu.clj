@@ -39,7 +39,9 @@
                        :sudo
                        :logrotate]))
 
-    (meh (net/heal! (:net test) test)))
+    (info node "setting up ubuntu")
+    (meh (net/heal! (:net test) test))
+    )
 
   (teardown! [_ test node]))
 

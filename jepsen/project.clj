@@ -1,4 +1,4 @@
-(defproject jepsen "0.2.7-SNAPSHOT"
+(defproject jepsen "0.2.7-LOCAL"
   :description "Distributed systems testing framework."
   :url         "https://jepsen.io"
   :license {:name "Eclipse Public License"
@@ -32,6 +32,7 @@
   :java-source-paths ["src"]
   :javac-options ["-target" "11" "-source" "11"]
   :main jepsen.cli
+  :resource-paths ["resources/ViSearch-1.0.jar"]
   :plugins [[lein-localrepo "0.5.4"]
             [lein-codox "0.10.7"]
             [jonase/eastwood "0.3.10"]]

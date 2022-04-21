@@ -63,10 +63,11 @@
                          :DROP :-w))))
 
     (heal! [net test]
-      (with-test-nodes test
-        (su
-          (exec :iptables :-F :-w)
-          (exec :iptables :-X :-w))))
+      ;; (with-test-nodes test
+      ;;   (su
+      ;;     (exec :iptables :-F :-w)
+      ;;     (exec :iptables :-X :-w)))
+          )
 
     (slow! [net test]
       (with-test-nodes test

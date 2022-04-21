@@ -8,12 +8,15 @@
   (:require [clj-ssh.ssh    :as ssh]
             [jepsen.util    :as util :refer [real-pmap with-thread-name]]
             [jepsen.control [clj-ssh :as clj-ssh]
+                            [sshj :as sshj]
                             [core :as core
                              :refer [connect
                                      disconnect!
                                      execute!
                                      upload!
                                      download!]]]
+            [jepsen.reconnect :as rc]
+            [dom-top.core :refer [with-retry]]
             [potemkin :refer [import-vars]]
             [clojure.string :as str]
             [clojure.java.io :as io]

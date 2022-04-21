@@ -24,7 +24,8 @@
                      [history :as history]]
             [knossos.linear.report :as linear.report]
             [slingshot.slingshot :refer [try+ throw+]])
-  (:import (java.util.concurrent Semaphore)))
+  (:import (java.util.concurrent Semaphore)
+           (checking JChecker)))
 
 (def valid-priorities
   "A map of :valid? values to their importance. Larger numbers are considered
@@ -70,6 +71,16 @@
   []
   (reify Checker
     (check [_ _ _ _])))
+
+(defn visearch-checker
+  "An empty checker that only returns nil."
+  [adt]
+  (reify Checker
+    (check [this test history opts]
+      (let [c (new JChecker adt)]
+        (do (info (str history))
+            (info (.testCheck c (str history)))
+            {:valid? true})))))
 
 (defn check-safe
   "Like check, but wraps exceptions up and returns them as a map like
