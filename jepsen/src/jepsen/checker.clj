@@ -27,6 +27,7 @@
   (:import (java.util.concurrent Semaphore)
            (checking JChecker)
            (datatype AbstractDataType)
+           (datatype DataTypeCreator)
            (history Invocation)))
 
 (def valid-priorities
@@ -73,15 +74,6 @@
   []
   (reify Checker
     (check [_ _ _ _])))
-
-(defn visearch-checker
-  "An empty checker that only returns nil."
-  [model]
-  (reify Checker
-    (check [this test history opts]
-      (let [c (new JChecker model)]
-        ;; (info history)
-        {:valid? true :level (.visCheck c history)}))))
 
 (defn check-safe
   "Like check, but wraps exceptions up and returns them as a map like
@@ -193,6 +185,30 @@
         (assoc (stats- history)
                :by-f    groups
                :valid?  (merge-valid (map :valid? (vals groups))))))))
+
+(defn model-transform
+  "Transform a stateless model into stateful model"
+  [model]
+  (let [ctx (atom (model))]
+    (reify
+      AbstractDataType
+      (step [this invocation] (not (model/inconsistent? (swap! ctx model/step invocation))))
+      (reset [this] (reset! ctx (model))))))
+
+(defn creator-wrapper
+  [model]
+  (reify
+    DataTypeCreator
+    (createDataType [this] (model-transform model))))
+
+(defn visearch-checker
+  "ViSearch checker that measures consistency level with Vis-Ar framework."
+  [model]
+  (reify Checker
+    (check [this test history opts]
+      (let [c (new JChecker (creator-wrapper model) 8)]
+        ;; (info history)
+        {:valid? true :level (.visCheck c history)}))))
 
 (defn linearizable
   "Validates linearizability with Knossos. Defaults to the competition checker,

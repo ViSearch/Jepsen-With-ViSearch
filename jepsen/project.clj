@@ -1,6 +1,6 @@
-(defproject jepsen "0.2.7-LOCAL"
-  :description "Distributed systems testing framework."
-  :url         "https://jepsen.io"
+(defproject jepsen-with-visearch "0.1.0-LOCAL"
+  :description "Distributed systems testing framework Jepsen integrated with ViSearch."
+  :url         "https://github.com/ViSearch/Jepsen-With-ViSearch"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.10.3"]
@@ -46,9 +46,6 @@
                    :perf        :perf
                    :logging     :logging
                    :integration :integration}
-  :codox {:output-path "doc/"
-          :source-uri "https://github.com/jepsen-io/jepsen/blob/{version}/jepsen/{filepath}#L{line}"
-          :metadata {:doc/format :markdown}}
   :profiles {:uberjar {:aot :all}
              :dev {:jvm-opts ["-Xmx32g"
                               "-server"
