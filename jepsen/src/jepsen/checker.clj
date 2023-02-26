@@ -201,7 +201,7 @@
     DataTypeCreator
     (createDataType [this] (model-transform model))))
 
-(defn visearch-checker
+(defn visrelax-measurer
   "ViSearch checker that measures consistency level with Vis-Ar framework."
   [model]
   (reify Checker
